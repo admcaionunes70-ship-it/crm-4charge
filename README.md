@@ -23,113 +23,80 @@ VITE_SUPABASE_ANON_KEY=sua-chave-anon-publica
 
 ## SQL do Supabase
 
-```sql
-create table if not exists public.users (
-  id uuid primary key references auth.users(id) on delete cascade,
-  email text,
-  created_at timestamptz not null default now()
-);
+drop policy if exists "contatos_select_own" on public.contatos;
+drop policy if exists "contatos_insert_own" on public.contatos;
+drop policy if exists "contatos_update_own" on public.contatos;
+drop policy if exists "contatos_delete_own" on public.contatos;
 
-create table if not exists public.contatos (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  estabelecimento text not null,
-  dono text,
-  whatsapp text,
-  segmento text,
-  totem text,
-  canal text,
-  status text not null default 'Novo',
-  followup date,
-  observacoes text,
-  valor numeric(12,2),
-  data_fechamento date,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
+drop policy if exists "atividades_select_own" on public.atividades;
+drop policy if exists "atividades_insert_own" on public.atividades;
 
-create table if not exists public.atividades (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  contato_id uuid references public.contatos(id) on delete cascade,
-  tipo text not null,
-  descricao text,
-  created_at timestamptz not null default now()
-);
+drop policy if exists "followups_select_own" on public.followups;
+drop policy if exists "followups_insert_own" on public.followups;
+drop policy if exists "followups_update_own" on public.followups;
+drop policy if exists "followups_delete_own" on public.followups;
 
-create table if not exists public.followups (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  contato_id uuid not null references public.contatos(id) on delete cascade,
-  data_followup date not null,
-  observacao text,
-  concluido boolean not null default false,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now(),
-  unique (contato_id, data_followup)
-);
+create policy "contatos_select_all_authenticated"
+on public.contatos
+for select
+to authenticated
+using (true);
 
-create or replace function public.set_updated_at()
-returns trigger
-language plpgsql
-as $$
-begin
-  new.updated_at = now();
-  return new;
-end;
-$$;
+create policy "contatos_insert_all_authenticated"
+on public.contatos
+for insert
+to authenticated
+with check (true);
 
-drop trigger if exists contatos_set_updated_at on public.contatos;
-create trigger contatos_set_updated_at
-before update on public.contatos
-for each row execute function public.set_updated_at();
+create policy "contatos_update_all_authenticated"
+on public.contatos
+for update
+to authenticated
+using (true)
+with check (true);
 
-drop trigger if exists followups_set_updated_at on public.followups;
-create trigger followups_set_updated_at
-before update on public.followups
-for each row execute function public.set_updated_at();
+create policy "contatos_delete_all_authenticated"
+on public.contatos
+for delete
+to authenticated
+using (true);
 
-alter table public.users enable row level security;
-alter table public.contatos enable row level security;
-alter table public.atividades enable row level security;
-alter table public.followups enable row level security;
+create policy "atividades_select_all_authenticated"
+on public.atividades
+for select
+to authenticated
+using (true);
 
-create policy "users_select_own" on public.users
-for select using (auth.uid() = id);
+create policy "atividades_insert_all_authenticated"
+on public.atividades
+for insert
+to authenticated
+with check (true);
 
-create policy "users_insert_own" on public.users
-for insert with check (auth.uid() = id);
+create policy "followups_select_all_authenticated"
+on public.followups
+for select
+to authenticated
+using (true);
 
-create policy "contatos_select_own" on public.contatos
-for select using (auth.uid() = user_id);
+create policy "followups_insert_all_authenticated"
+on public.followups
+for insert
+to authenticated
+with check (true);
 
-create policy "contatos_insert_own" on public.contatos
-for insert with check (auth.uid() = user_id);
+create policy "followups_update_all_authenticated"
+on public.followups
+for update
+to authenticated
+using (true)
+with check (true);
 
-create policy "contatos_update_own" on public.contatos
-for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-
-create policy "contatos_delete_own" on public.contatos
-for delete using (auth.uid() = user_id);
-
-create policy "atividades_select_own" on public.atividades
-for select using (auth.uid() = user_id);
-
-create policy "atividades_insert_own" on public.atividades
-for insert with check (auth.uid() = user_id);
-
-create policy "followups_select_own" on public.followups
-for select using (auth.uid() = user_id);
-
-create policy "followups_insert_own" on public.followups
-for insert with check (auth.uid() = user_id);
-
-create policy "followups_update_own" on public.followups
-for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
-
-create policy "followups_delete_own" on public.followups
-for delete using (auth.uid() = user_id);
-```
+create policy "followups_delete_all_authenticated"
+on public.followups
+for delete
+to authenticated
+using (true);
 
 ## Autenticação
 
