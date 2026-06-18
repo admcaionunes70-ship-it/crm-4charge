@@ -19,7 +19,7 @@
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
-  background: var(--bg);
+  background: #0A0A0F;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -50,20 +50,26 @@
   }
 }
 
+html,
 body {
   margin: 0;
+  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  background: #0A0A0F;
+  overflow-x: hidden;
 }
 
 #root {
-  width: 1126px;
+  width: 100vw;
   max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  margin: 0;
+  text-align: initial;
+  border-inline: none;
   min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+  display: block;
   box-sizing: border-box;
+  background: #0A0A0F;
 }
 
 h1,

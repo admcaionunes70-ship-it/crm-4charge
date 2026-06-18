@@ -217,8 +217,8 @@ function Login({ onAuth }) {
   }
 
   return (
-    <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", maxWidth: 480, margin: "0 auto", padding: 16, boxSizing: "border-box", display: "flex", alignItems: "center" }}>
-      <div style={{ width: "100%" }}>
+    <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", width: "100vw", minWidth: "100vw", padding: "clamp(16px, 3vw, 40px)", boxSizing: "border-box", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ width: "100%", maxWidth: 440 }}>
         <div style={{ marginBottom: 18 }}>
           <div style={{ fontSize: 11, color: COLORS.accent, fontWeight: 800, letterSpacing: 2, marginBottom: 6 }}>CRM ONLINE</div>
           <div style={{ fontSize: 30, fontWeight: 900, color: COLORS.white }}>4Charge</div>
@@ -265,8 +265,8 @@ function Inicio({ contatos }) {
         <div style={{ fontSize: 13, color: COLORS.muted }}>Painel Operacional — Campanha Junho & Julho</div>
       </div>
 
-      <div style={{ padding: 16 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 12 }}>
+      <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginBottom: 12 }}>
           <Stat valor="11K" label="impactos/mês" cor={COLORS.accent} />
           <Stat valor={ganhosMes.length} label="fechamentos" cor={COLORS.green} sub="este mês" />
           <Stat valor={followupsHoje || "—"} label="follow-ups hoje" cor={followupsHoje ? COLORS.yellow : COLORS.muted} />
@@ -333,7 +333,7 @@ function Metas({ contatos }) {
   const corFaturamento = faturamento >= 1890 ? COLORS.green : faturamento >= 945 ? COLORS.yellow : COLORS.accent;
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
       <Card style={{ border: `1px solid ${corFaturamento}44`, background: `${corFaturamento}11` }}>
         <div style={{ fontSize: 11, color: corFaturamento, fontWeight: 900, letterSpacing: 1 }}>FATURAMENTO DO MÊS</div>
         <div style={{ fontSize: 32, fontWeight: 900, color: COLORS.white }}>R$ {faturamento.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</div>
@@ -344,7 +344,7 @@ function Metas({ contatos }) {
         <ProgressBar value={faturamento} max={2500} color={corFaturamento} height={10} />
       </Card>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 8, marginBottom: 12 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8, marginBottom: 12 }}>
         <Stat valor={totalContatos} label="Contatos" cor={COLORS.accent} sub="meta 80" />
         <Stat valor={ganhosMes.length} label="Fechamentos" cor={COLORS.green} sub="meta 8" />
         <Stat valor={ticketMedio > 0 ? `R$${Math.round(ticketMedio)}` : "—"} label="Ticket médio" cor={ticketMedio >= 247 ? COLORS.green : COLORS.yellow} />
@@ -511,7 +511,7 @@ function CRM({ contatos, setContatos, user }) {
 
   if (view === "form") {
     return (
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
           <button onClick={() => setView("lista")} style={buttonSecondary}>← Voltar</button>
           <div style={{ fontWeight: 800, color: COLORS.white }}>{editId ? "Editar contato" : "Novo contato"}</div>
@@ -548,7 +548,7 @@ function CRM({ contatos, setContatos, user }) {
     const cor = STATUS_COLORS[c.status] || COLORS.muted;
 
     return (
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
         <div style={{ display: "flex", gap: 10, marginBottom: 16 }}>
           <button onClick={() => setView("lista")} style={buttonSecondary}>← Voltar</button>
           <button onClick={() => editarContato(c)} style={buttonSecondary}>Editar</button>
@@ -584,8 +584,8 @@ function CRM({ contatos, setContatos, user }) {
   }
 
   return (
-    <div style={{ padding: 16 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 }}>
+    <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginBottom: 12 }}>
         <Stat valor={contatos.length} label="Total contatos" cor={COLORS.accent} />
         <Stat valor={ganhos.length} label="Ganhos" cor={COLORS.green} />
         <Stat valor={followupsHoje} label="Follow-ups hoje" cor={COLORS.yellow} />
@@ -670,7 +670,7 @@ function Scripts() {
   const script = scripts[scriptAtivo];
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
       <div style={{ display: "flex", gap: 8, marginBottom: 16, overflowX: "auto" }}>
         {scripts.map((item, index) => (
           <button key={item.id} onClick={() => { setScriptAtivo(index); setPassoAberto(null); }} style={{ padding: "8px 14px", borderRadius: 10, border: `1px solid ${index === scriptAtivo ? COLORS.accent : COLORS.border}`, background: index === scriptAtivo ? COLORS.accentDim : COLORS.card, color: index === scriptAtivo ? COLORS.accent : COLORS.muted, fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap" }}>
@@ -699,7 +699,7 @@ function Scripts() {
 
 function Pontos() {
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
       <Card>
         <div style={{ color: COLORS.accent, fontWeight: 900, marginBottom: 8 }}>Pontos de mídia</div>
         <div style={{ fontSize: 13, color: COLORS.text, lineHeight: 1.8 }}>
@@ -722,7 +722,7 @@ function Rotina() {
   ];
 
   return (
-    <div style={{ padding: 16 }}>
+    <div style={{ padding: "clamp(16px, 2.5vw, 32px)" }}>
       <Card style={{ border: `1px solid ${COLORS.accent}44`, background: COLORS.accentDim }}>
         <div style={{ fontSize: 13, fontWeight: 900, color: COLORS.accent, marginBottom: 4 }}>Rayla — Rotina Diária</div>
         <div style={{ fontSize: 12, color: COLORS.muted }}>18 abordagens · 3 apresentações · 2 propostas/dia</div>
@@ -733,7 +733,7 @@ function Rotina() {
 }
 
 export default function App() {
-  const [tab, setTab] = useState("InÃ­cio");
+  const [tab, setTab] = useState(TABS[0]);
   const [contatos, setContatos] = useState([]);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(isSupabaseConfigured);
@@ -788,7 +788,7 @@ export default function App() {
 
   if (loading) {
     return (
-      <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", maxWidth: 480, margin: "0 auto", display: "grid", placeItems: "center" }}>
+      <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", width: "100vw", minWidth: "100vw", display: "grid", placeItems: "center" }}>
         <div style={{ color: COLORS.muted, fontSize: 13 }}>Carregando CRM...</div>
       </div>
     );
@@ -797,7 +797,7 @@ export default function App() {
   if (!session) return <Login onAuth={setSession} />;
 
   const pages = {
-    "InÃ­cio": <Inicio contatos={contatos} />,
+    [TABS[0]]: <Inicio contatos={contatos} />,
     CRM: <CRM contatos={contatos} setContatos={setContatos} user={session.user} />,
     Metas: <Metas contatos={contatos} />,
     Scripts: <Scripts />,
@@ -806,7 +806,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", maxWidth: 480, margin: "0 auto" }}>
+    <div style={{ background: COLORS.bg, minHeight: "100vh", color: COLORS.text, fontFamily: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", width: "100vw", minWidth: "100vw", maxWidth: "none", margin: 0, boxSizing: "border-box" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: COLORS.card, borderBottom: `1px solid ${COLORS.border}` }}>
         <span style={{ color: COLORS.muted, fontSize: 11, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{session.user.email}</span>
         <button onClick={() => supabase.auth.signOut()} style={{ ...buttonSecondary, padding: "6px 10px", fontSize: 11 }}>Sair</button>
